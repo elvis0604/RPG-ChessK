@@ -13,9 +13,6 @@ public class Enemy : MonoBehaviour
     public string enemy_name = "Ratty";
 
     private EnemyController controller;
-    private EnemyGraphic graphic;
-    private EnemyWeaponCollider weapon;
-    private Animator animator;
 
     [SerializeField]
     private Behaviour[] disableOnDeath;
@@ -31,9 +28,6 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         controller = GetComponent<EnemyController>();
-        graphic = GetComponent<EnemyGraphic>();
-        animator = GetComponentInChildren<Animator>();
-        weapon = GetComponentInChildren<EnemyWeaponCollider>();
     }
 
     public void Setup()
@@ -54,8 +48,6 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        graphic.blood.Play();
-
         cur_hp -= damage;
         Debug.Log("Enemy now has " + cur_hp + " health");
 
@@ -73,8 +65,6 @@ public class Enemy : MonoBehaviour
     public void EnemyKilled(string id)
     {
         isAlive = false;
-        graphic.explode.Play();
-        animator.SetTrigger("Die");
         Disable();
 
         Debug.Log(transform.name + " is DEAD");
@@ -97,9 +87,6 @@ public class Enemy : MonoBehaviour
         if (col != null)
             col.enabled = false;
 
-        if (weapon != null)
-            weapon.WeaponDisable();
-
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
             rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
@@ -111,10 +98,6 @@ public class Enemy : MonoBehaviour
         EnemyController controller = GetComponent<EnemyController>();
         if (controller != null)
             controller.enabled = false;
-
-        EnemyRangeController range_controller = GetComponent<EnemyRangeController>();
-        if (range_controller != null)
-            range_controller.enabled = false;
 
         UnityEngine.AI.NavMeshAgent agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         if (agent != null)
