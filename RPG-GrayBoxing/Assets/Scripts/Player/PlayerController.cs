@@ -27,9 +27,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
-            return;
-
         float x_move = Input.GetAxisRaw("Horizontal");
         float z_move = Input.GetAxisRaw("Vertical");
 
