@@ -87,10 +87,6 @@ public class Player : MonoBehaviour
         if (col != null)
             col.enabled = false;
 
-        PlayerShoot attack = GetComponent<PlayerShoot>();
-        if (attack != null)
-            attack.enabled = false;
-
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
             rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
