@@ -7,8 +7,17 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int max_hp = 100;
 
+    [SerializeField]
+    private int exp = 0;
+
+    private int exp_to_next_level = 100;
     private int cur_hp;
+    private int level;
+    private int max_level;
+
     public string player_name = "Catty";
+    public Sprite level_icon = null;
+    public Sprite avatar = null;
     public GameObject damaged_indication_UI;
 
     [SerializeField]
@@ -21,6 +30,22 @@ public class Player : MonoBehaviour
     {
         get { return alive; }
         protected set { alive = value; }
+    }
+
+    void Start()
+    {
+        level = 0;
+        level_icon = GameManager.instance.level_progress_white[level];
+        avatar = GameManager.instance.level_progress_white[level];
+        max_level = GameManager.instance.level_progress_white.Length; //set max level as the length of level progress
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            AddExp(100);
+        }
     }
 
     public void Setup()
@@ -61,6 +86,31 @@ public class Player : MonoBehaviour
             PlayerKilled(transform.name);
             cur_hp = 0;
         }
+    }
+
+    public void AddExp(int amount)
+    { 
+        if (level < max_level - 1)
+            exp += amount;
+        if (exp >= exp_to_next_level)
+        {
+            Debug.Log("Player level up!");
+            LevelUp();
+        }
+    }
+
+    public int GetLevel()
+    {
+        return level;
+    }
+
+    private void LevelUp()
+    {
+        level++;
+        level_icon = GameManager.instance.level_progress_white[level];
+        avatar = GameManager.instance.level_progress_white[level];
+        exp -= exp_to_next_level;
+        exp_to_next_level = exp_to_next_level * 2;
     }
 
     IEnumerator DeactiveUI()

@@ -16,12 +16,6 @@ public class Door : Interactable
     public override void Interaction()
     {
         base.Interaction();
-        if (Inventory.instance.key_found)
-        {
-            Open();
-        }
-        else
-            Debug.Log("Full key is not found");
     }
 
     void Open()
