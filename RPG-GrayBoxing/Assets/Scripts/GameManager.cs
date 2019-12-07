@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     public GameObject gameoverUI;
     public GameObject[] UI;
     public Sprite[] level_progress_white;
-    public Sprite[] level_progress_black;
 
     private bool UI_on = true;
 

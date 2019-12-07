@@ -22,6 +22,10 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private Behaviour[] disableOnDeath;
+
+    [SerializeField]
+    private Behaviour[] disableOnEncounter;
+
     private bool[] wasEnabled;  //Save for respawn
 
 
@@ -34,10 +38,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        level = 0;
-        level_icon = GameManager.instance.level_progress_white[level];
-        avatar = GameManager.instance.level_progress_white[level];
-        max_level = GameManager.instance.level_progress_white.Length; //set max level as the length of level progress
+
     }
 
     void Update()
@@ -45,6 +46,10 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             AddExp(100);
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            TakeDamage(9999);
         }
     }
 
@@ -54,6 +59,11 @@ public class Player : MonoBehaviour
 
         for (int i = 0; i < wasEnabled.Length; i++) //Store default setting
             wasEnabled[i] = disableOnDeath[i].enabled;
+
+        level = 0;
+        level_icon = GameManager.instance.level_progress_white[level];
+        avatar = GameManager.instance.level_progress_white[level];
+        max_level = GameManager.instance.level_progress_white.Length; //set max level as the length of level progress
 
         SetDefault();
     }
@@ -78,8 +88,8 @@ public class Player : MonoBehaviour
 
         cur_hp -= damage;
 
-        damaged_indication_UI.SetActive(true);
-        StartCoroutine(DeactiveUI());
+        //damaged_indication_UI.SetActive(true);
+        //StartCoroutine(DeactiveUI());
 
         if (cur_hp <= 0)
         {
@@ -123,11 +133,12 @@ public class Player : MonoBehaviour
     {
         isAlive = false;
 
-        GameManager.instance.GameOver();
+        //GameManager.instance.GameOver();
         Disable();
 
     }
 
+    #region disablecomponent
     public void Disable()
     {
         for (int i = 0; i < disableOnDeath.Length; i++) //Deactivate default setting on death
@@ -141,6 +152,15 @@ public class Player : MonoBehaviour
         if (rb != null)
             rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
     }
+
+    public void DisableOnEncounter()
+    {
+        for (int i = 0; i < disableOnEncounter.Length; i++)
+        {
+            disableOnEncounter[i].enabled = false;
+        }
+    }
+    #endregion
 
     public void SetDefault()
     {

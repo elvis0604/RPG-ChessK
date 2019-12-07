@@ -10,12 +10,19 @@ public class Enemy : MonoBehaviour
     private float alert_radius = 15f;
     private float alert_time = 5f;
     private int cur_hp;
-    public string enemy_name = "Ratty";
+
+    public string enemy_name = null;
+    public Sprite level_icon = null;
+    public Sprite avatar = null;
 
     private EnemyController controller;
 
     [SerializeField]
     private Behaviour[] disableOnDeath;
+
+    [SerializeField]
+    private Behaviour[] disableOnEncounter;
+
     private bool[] wasEnabled;  //save for respawn
 
     private bool alive = true;
@@ -23,6 +30,11 @@ public class Enemy : MonoBehaviour
     {
         get { return alive; }
         protected set { alive = value; }
+    }  
+
+    void Awake()
+    {
+        enemy_name = avatar.name;
     }
 
     void Start()
@@ -55,11 +67,6 @@ public class Enemy : MonoBehaviour
 
         if (cur_hp <= 0)
             EnemyKilled(transform.name);
-    }
-
-    public void Alert()
-    {
-        controller.detected = true;
     }
 
     public void EnemyKilled(string id)
@@ -103,6 +110,14 @@ public class Enemy : MonoBehaviour
         if (agent != null)
             agent.enabled = false;
     }
+
+    public void DisableOnEncounter()
+    {
+        for (int i = 0; i < disableOnEncounter.Length; i++)
+        {
+            disableOnEncounter[i].enabled = false;
+        }
+    }
     #endregion
 
     public void SetDefault()
@@ -113,5 +128,10 @@ public class Enemy : MonoBehaviour
 
         for (int i = 0; i < disableOnDeath.Length; i++) //load default setting
             disableOnDeath[i].enabled = wasEnabled[i];
+    }
+
+    public void Alert()
+    {
+        controller.detected = true;
     }
 }
