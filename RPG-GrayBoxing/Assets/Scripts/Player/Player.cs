@@ -4,21 +4,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
     private int max_hp = 100;
-
-    [SerializeField]
     private int exp = 0;
-
     private int exp_to_next_level = 100;
     private int cur_hp;
     private int level;
     private int max_level;
 
-    public string player_name = "Catty";
-    public Sprite level_icon = null;
+    public string player_name = "Liam";
     public Sprite avatar = null;
     public GameObject damaged_indication_UI;
+    public PlayerWeapon weapon;
 
     [SerializeField]
     private Behaviour[] disableOnDeath;
@@ -28,17 +24,11 @@ public class Player : MonoBehaviour
 
     private bool[] wasEnabled;  //Save for respawn
 
-
     private bool alive = true;
     public bool isAlive
     {
         get { return alive; }
         protected set { alive = value; }
-    }
-
-    void Start()
-    {
-
     }
 
     void Update()
@@ -49,7 +39,7 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            TakeDamage(9999);
+            TakeDamage(10);
         }
     }
 
@@ -61,7 +51,6 @@ public class Player : MonoBehaviour
             wasEnabled[i] = disableOnDeath[i].enabled;
 
         level = 0;
-        level_icon = GameManager.instance.level_progress_white[level];
         avatar = GameManager.instance.level_progress_white[level];
         max_level = GameManager.instance.level_progress_white.Length; //set max level as the length of level progress
 
@@ -81,11 +70,36 @@ public class Player : MonoBehaviour
         return (float)cur_hp / max_hp;
     }
 
-    public void TakeDamage(int damage)
+    #region Getting
+    public int GetCurHp()
     {
-        if (!isAlive)
-            return;
+        return cur_hp;
+    }
 
+    public int GetMaxHp()
+    {
+        return max_hp;
+    }
+
+    public int GetCurExp()
+    {
+        return exp;
+    }
+
+    public int GetMaxExp()
+    {
+        return exp_to_next_level;
+    }
+
+    public int GetLevel()
+    {
+        return level;
+    }
+
+    #endregion
+
+    public bool TakeDamage(int damage)
+    {
         cur_hp -= damage;
 
         //damaged_indication_UI.SetActive(true);
@@ -95,7 +109,10 @@ public class Player : MonoBehaviour
         {
             PlayerKilled(transform.name);
             cur_hp = 0;
+            return isAlive;
         }
+
+        return isAlive;
     }
 
     public void AddExp(int amount)
@@ -109,15 +126,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    public int GetLevel()
-    {
-        return level;
-    }
-
     private void LevelUp()
     {
         level++;
-        level_icon = GameManager.instance.level_progress_white[level];
         avatar = GameManager.instance.level_progress_white[level];
         exp -= exp_to_next_level;
         exp_to_next_level = exp_to_next_level * 2;

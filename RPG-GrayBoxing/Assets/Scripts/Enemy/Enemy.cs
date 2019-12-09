@@ -12,10 +12,10 @@ public class Enemy : MonoBehaviour
     private int cur_hp;
 
     public string enemy_name = null;
-    public Sprite level_icon = null;
     public Sprite avatar = null;
 
     private EnemyController controller;
+    public EnemyWeapon weapon;
 
     [SerializeField]
     private Behaviour[] disableOnDeath;
@@ -52,21 +52,21 @@ public class Enemy : MonoBehaviour
         SetDefault();
     }
 
-    public void TakeDamage(int damage)
+    public bool TakeDamage(int damage)
     {
-        if (!isAlive)
-        {
-            Debug.Log(transform.name + " is already DEAD");
-            return;
-        }
-
         cur_hp -= damage;
         Debug.Log("Enemy now has " + cur_hp + " health");
 
         Alert();
 
         if (cur_hp <= 0)
+        {
             EnemyKilled(transform.name);
+            cur_hp = 0;
+            return isAlive;
+        }
+
+        return isAlive;
     }
 
     public void EnemyKilled(string id)
@@ -134,4 +134,15 @@ public class Enemy : MonoBehaviour
     {
         controller.detected = true;
     }
+
+    public int GetCurHp()
+    {
+        return cur_hp;
+    }
+
+    public int GetMaxHp()
+    {
+        return max_hp;
+    }
+
 }

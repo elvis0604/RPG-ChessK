@@ -2,7 +2,6 @@
 
 public class EnemyAttack : MonoBehaviour
 {
-    public EnemyWeapon weapon;
     private Enemy enemy;
     private Player player;
 
@@ -16,11 +15,11 @@ public class EnemyAttack : MonoBehaviour
         if (col.gameObject.tag == "Player")
         {
             Debug.Log(transform.name + " is hitting the Player");
-            MeleeAttack();
+            Encounter();
         }
     }
 
-    void MeleeAttack()
+    void Encounter()
     {
         if (player == null)
             player = GameManager.GetPlayer();
@@ -29,7 +28,7 @@ public class EnemyAttack : MonoBehaviour
         {
             player.DisableOnEncounter();
             enemy.DisableOnEncounter();
-            BattleUI.instance.BattleStart(player, enemy);
+            BattleManager.instance.SetupBattle(player, enemy);
         }
     }
 }
