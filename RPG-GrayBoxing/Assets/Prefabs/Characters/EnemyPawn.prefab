@@ -97,9 +97,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   max_hp: 100
+  exp_obtained: 20
   enemy_name: Ratty
-  level_icon: {fileID: 21300000, guid: c0503727f302a44a3b74e1083b31c080, type: 3}
-  avatar: {fileID: 21300000, guid: c0503727f302a44a3b74e1083b31c080, type: 3}
+  avatar: {fileID: 21300000, guid: 382845e9ae7fd4bbcae87e795b1732d2, type: 3}
+  weapon:
+    name: Knife
+    damage: 5
   disableOnDeath: []
   disableOnEncounter:
   - {fileID: 5777887627589967362}
@@ -167,9 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 137b93ba3cff4459ebfb23ba142adced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon:
-    name: Knife
-    damage: 5
 --- !u!114 &4648040365990175088
 MonoBehaviour:
   m_ObjectHideFlags: 0
