@@ -2,13 +2,12 @@
 
 public class EnemyAttack : MonoBehaviour
 {
-    public EnemyWeapon weapon;
+    private Enemy enemy;
     private Player player;
-    private Animator animator;
 
     void Start()
     {
-        animator = GetComponentInChildren<Animator>(); 
+        enemy = GetComponent<Enemy>();
     }
 
     void OnCollisionEnter(Collision col)
@@ -16,18 +15,20 @@ public class EnemyAttack : MonoBehaviour
         if (col.gameObject.tag == "Player")
         {
             Debug.Log(transform.name + " is hitting the Player");
-            MeleeAttack();
+            Encounter();
         }
     }
 
-    void MeleeAttack()
+    void Encounter()
     {
-        animator.SetTrigger("Attack");
-
         if (player == null)
             player = GameManager.GetPlayer();
 
         if (player.isAlive == true)
-            player.TakeDamage(weapon.damage);
+        {
+            player.DisableOnEncounter();
+            enemy.DisableOnEncounter();
+            BattleManager.instance.SetupBattle(player, enemy);
+        }
     }
 }

@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameoverUI: {fileID: 0}
-  UI:
-  - {fileID: 0}
-  - {fileID: 0}
+  UI: []
+  level_progress_white: []
+  level_progress_black: []
   player_object: {fileID: 0}
 --- !u!114 &6096204691456538311
 MonoBehaviour:
@@ -63,5 +63,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items: []
   space: 6
-  key_found: 0
-  full_key: {fileID: 11400000, guid: 26b4505cc2bc1494c848e84500f8e0c9, type: 2}

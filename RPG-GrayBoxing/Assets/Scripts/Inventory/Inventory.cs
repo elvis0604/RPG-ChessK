@@ -19,34 +19,14 @@ public class Inventory : MonoBehaviour
     public List<Item> items = new List<Item>();
 
     public int space = 10;
-    private int key_count = 0;
-    public bool key_found = false;
-    public Item full_key;
 
     public bool Add(Item i)
     {
-        if (i.name == "Half_Key")
-        {
-            Debug.Log("Found half a key");
-            key_count++;
-        }
-
         if (items.Count >= space)
         {
             Debug.Log("Not enough space inside Inventory");
             return false;
         }
-
-        if (key_count == 2)
-        {
-            items.Add(full_key);
-            Item temp = items.Find(key => key.name == "Half_Key");
-            items.Remove(temp);
-            key_found = true;
-            key_count = 0;
-        }
-        else
-            items.Add(i);
 
         if(on_item_changed_call_back != null) //call back when things change locally
             on_item_changed_call_back.Invoke();
