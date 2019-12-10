@@ -7,15 +7,25 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private int max_hp = 100;
 
+    [SerializeField]
+    private int exp_obtained = 20;
+
     private float alert_radius = 15f;
     private float alert_time = 5f;
     private int cur_hp;
-    public string enemy_name = "Ratty";
+
+    public string enemy_name = null;
+    public Sprite avatar = null;
 
     private EnemyController controller;
+    public EnemyWeapon weapon;
 
     [SerializeField]
     private Behaviour[] disableOnDeath;
+
+    [SerializeField]
+    private Behaviour[] disableOnEncounter;
+
     private bool[] wasEnabled;  //save for respawn
 
     private bool alive = true;
@@ -23,6 +33,11 @@ public class Enemy : MonoBehaviour
     {
         get { return alive; }
         protected set { alive = value; }
+    }  
+
+    void Awake()
+    {
+        enemy_name = avatar.name;
     }
 
     void Start()
@@ -40,26 +55,20 @@ public class Enemy : MonoBehaviour
         SetDefault();
     }
 
-    public void TakeDamage(int damage)
+    public bool TakeDamage(int damage)
     {
-        if (!isAlive)
-        {
-            Debug.Log(transform.name + " is already DEAD");
-            return;
-        }
-
         cur_hp -= damage;
-        Debug.Log("Enemy now has " + cur_hp + " health");
 
         Alert();
 
         if (cur_hp <= 0)
+        {
             EnemyKilled(transform.name);
-    }
+            cur_hp = 0;
+            return isAlive;
+        }
 
-    public void Alert()
-    {
-        controller.detected = true;
+        return isAlive;
     }
 
     public void EnemyKilled(string id)
@@ -103,6 +112,14 @@ public class Enemy : MonoBehaviour
         if (agent != null)
             agent.enabled = false;
     }
+
+    public void DisableOnEncounter()
+    {
+        for (int i = 0; i < disableOnEncounter.Length; i++)
+        {
+            disableOnEncounter[i].enabled = false;
+        }
+    }
     #endregion
 
     public void SetDefault()
@@ -114,4 +131,26 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < disableOnDeath.Length; i++) //load default setting
             disableOnDeath[i].enabled = wasEnabled[i];
     }
+
+    public void Alert()
+    {
+        controller.detected = true;
+    }
+
+    #region Getter
+    public int GetCurHp()
+    {
+        return cur_hp;
+    }
+
+    public int GetMaxHp()
+    {
+        return max_hp;
+    }
+
+    public int GetExpGained()
+    {
+        return exp_obtained;
+    }
+    #endregion
 }
