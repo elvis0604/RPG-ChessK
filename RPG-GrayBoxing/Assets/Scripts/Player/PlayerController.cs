@@ -37,7 +37,8 @@ public class PlayerController : MonoBehaviour
         Vector3 vel = (move_hor + move_ver).normalized * speed;
 
         //Animate movement
-        animator.SetFloat("Speed", z_move, .1f, Time.deltaTime);
+        animator.SetFloat("InputX", x_move, .1f, Time.deltaTime);
+        animator.SetFloat("InputY", z_move, .1f, Time.deltaTime);
 
         //Actual movement
         motor.Move(vel);
