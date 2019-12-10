@@ -339,7 +339,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 501641683}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: OnAttackButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &565254890
 GameObject:
   m_ObjectHideFlags: 0
@@ -655,9 +666,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c74e524e3a7b94f45b379042274426f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name_text: {fileID: 0}
-  level_text: {fileID: 0}
-  hp_slider: {fileID: 0}
+  name_text: {fileID: 695421300}
+  level_text: {fileID: 142369571}
+  hp_slider: {fileID: 1420008000}
+  exp_slider: {fileID: 8022474853713537349}
+  player_avatar: {fileID: 2044897758}
 --- !u!1 &1125106294
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,7 +977,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Action
+  m_Text: Attack
 --- !u!1 &1420007998
 GameObject:
   m_ObjectHideFlags: 0
@@ -1764,8 +1777,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 500684e3569eb5c4593a837725890dca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name_text: {fileID: 0}
-  hp_slider: {fileID: 0}
+  name_text: {fileID: 7893514748974478777}
+  hp_slider: {fileID: 6452034525195062361}
+  enemy_avatar: {fileID: 1863659006}
 --- !u!1 &1146748916523705608
 GameObject:
   m_ObjectHideFlags: 0
@@ -2040,7 +2054,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Name
+  m_Text: Enemy name
 --- !u!1 &4334211394918045155
 GameObject:
   m_ObjectHideFlags: 0
