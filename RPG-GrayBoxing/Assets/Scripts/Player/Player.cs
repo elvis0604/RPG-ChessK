@@ -65,12 +65,7 @@ public class Player : MonoBehaviour
             cur_hp = cur_hp + (max_hp - cur_hp);
     }
 
-    public float GetHealthPct()
-    {
-        return (float)cur_hp / max_hp;
-    }
-
-    #region Getting
+    #region Getter
     public int GetCurHp()
     {
         return cur_hp;
@@ -96,6 +91,11 @@ public class Player : MonoBehaviour
         return level;
     }
 
+    public float GetHealthPct()
+    {
+        return (float)cur_hp / max_hp;
+    }
+
     #endregion
 
     public bool TakeDamage(int damage)
@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
     }
 
     public void AddExp(int amount)
-    { 
+    {
         if (level < max_level - 1)
             exp += amount;
         if (exp >= exp_to_next_level)

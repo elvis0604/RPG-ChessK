@@ -26,4 +26,10 @@ public class PlayerBattleHUD : MonoBehaviour
     {
         hp_slider.value = hp;
     }
+
+
+    public void SetEXP(int exp)
+    {
+        exp_slider.value = exp;
+    }
 }

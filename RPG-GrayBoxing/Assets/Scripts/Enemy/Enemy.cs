@@ -7,6 +7,9 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private int max_hp = 100;
 
+    [SerializeField]
+    private int exp_obtained = 20;
+
     private float alert_radius = 15f;
     private float alert_time = 5f;
     private int cur_hp;
@@ -55,7 +58,6 @@ public class Enemy : MonoBehaviour
     public bool TakeDamage(int damage)
     {
         cur_hp -= damage;
-        Debug.Log("Enemy now has " + cur_hp + " health");
 
         Alert();
 
@@ -135,6 +137,7 @@ public class Enemy : MonoBehaviour
         controller.detected = true;
     }
 
+    #region Getter
     public int GetCurHp()
     {
         return cur_hp;
@@ -145,4 +148,9 @@ public class Enemy : MonoBehaviour
         return max_hp;
     }
 
+    public int GetExpGained()
+    {
+        return exp_obtained;
+    }
+    #endregion
 }

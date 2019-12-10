@@ -14,7 +14,7 @@ public class BattleManager : MonoBehaviour
 
     private Player player;
     private Enemy enemy;
-
+    bool isAlive = true;
     public Text dialogue_text;
 
     public PlayerBattleHUD player_hud;
@@ -82,12 +82,17 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator PlayerAttack()
     {
-        bool isAlive = enemy.TakeDamage(player.weapon.damage);
-        Debug.Log(isAlive);
-        enemy_hud.SetHP(enemy.GetCurHp());
+        int hp_left = enemy.GetCurHp() - player.weapon.damage;
+        state = BattleState.TRANSITION;
+
+        while (enemy.GetCurHp() > hp_left)
+        {
+            isAlive = enemy.TakeDamage(1);
+            yield return new WaitForSeconds(0.05f);
+            enemy_hud.SetHP(enemy.GetCurHp());
+        }
         dialogue_text.text = "The attack is successful";
 
-        state = BattleState.TRANSITION;
         yield return new WaitForSeconds(2f);
 
         if (!isAlive)
@@ -109,6 +114,19 @@ public class BattleManager : MonoBehaviour
             dialogue_text.text = "You have won!";
 
             yield return new WaitForSeconds(2.5f);
+            dialogue_text.text = enemy.enemy_name + " died...";
+            yield return new WaitForSeconds(2.5f);
+            dialogue_text.text = "You have gained " + enemy.GetExpGained();
+
+            int exp_gained = player.GetCurExp() + enemy.GetExpGained();
+            while (player.GetCurExp() < exp_gained)
+            {
+                player.AddExp(1);
+                yield return new WaitForSeconds(0.1f);
+                player_hud.SetEXP(player.GetCurExp());
+            }
+
+            yield return new WaitForSeconds(2.5f);
             battle_UI.SetActive(!battle_UI.activeSelf);
         }
         else if (state == BattleState.LOST)
@@ -120,14 +138,18 @@ public class BattleManager : MonoBehaviour
     {
         dialogue_text.text = enemy.enemy_name + " attacks!";
 
-        yield return new WaitForSeconds(1f);
-
-        bool isAlive = player.TakeDamage(enemy.weapon.damage);
-        player_hud.SetHP(player.GetCurHp());
-
         state = BattleState.TRANSITION;
         yield return new WaitForSeconds(1f);
-        Debug.Log(isAlive);
+        int hp_left = player.GetCurHp() - enemy.weapon.damage;
+
+        while (player.GetCurHp() > hp_left)
+        {
+            isAlive = player.TakeDamage(1);
+            yield return new WaitForSeconds(0.05f);
+            player_hud.SetHP(player.GetCurHp());
+        }
+
+        yield return new WaitForSeconds(1f);
         if (!isAlive)
         {
             state = BattleState.LOST;
